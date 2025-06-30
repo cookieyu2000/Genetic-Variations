@@ -1,0 +1,54 @@
+# Config.yaml(PB model)
+model:
+  type: "BioMedBERTClassifier" # BioMedBERTClassifier, SimpleBioMedBERTClassifier 等
+  pretrained_model: "microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext"
+  # microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext
+  num_labels: 2
+  dropout_rate: 0.3
+  mlp_hidden_size: 768
+  use_transformer: true # 設定為 false 表示不使用 Transformer 聚合（進行消融實驗）// 否則使用 Transformer 聚合
+
+transformer:
+  hidden_size: 256
+  num_heads: 12
+  num_layers: 6
+
+training:
+  learning_rate: 1e-6
+  weight_decay: 1e-2
+  epsilon: 1e-8
+  batch_size: 2
+  epochs: 100
+  patience: 2
+
+scheduler:
+  type: "None"
+  mode: "min"
+  factor: 0.1
+  patience: 5
+  threshold: 0.0001
+
+paths:
+  base_output_dir: "outputs"
+  timestamped_dir: ""
+  split_data_dir: "data/split"
+  best_model_path: ""
+
+logging:
+  level: "INFO"
+
+data:
+  raw_data_path: "data/raw/filtered_data_batch_1.json"
+  train_split: 0.7
+  valid_split: 0.15
+  test_split: 0.15
+  train_file: "data/split/train.json"
+  valid_file: "data/split/valid.json"
+  test_file: "data/split/test.json"
+  max_length: 512
+  max_paragraphs: 10
+  sliding_window: true # 設定為 true 表示使用滑動窗口（進行消融實驗）// 否則使用截斷
+  stride: 256
+  tokenizer_name: "microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext" # microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext, google-bert/bert-base-uncased
+  logging_name: "BioMedBERTClassifier_256_12_6.log"
+random_seed: 2818

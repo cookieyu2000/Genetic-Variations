@@ -1,0 +1,31 @@
+# ner2.0/config.yaml
+data:
+  dataset_path: "ner2.0/data/PubMed_ner_data.txt"
+  cache_path: "ner2.0/data/PubMed_ner_data.pkl"
+  seed: 42
+  train_split: 0.7
+  valid_split: 0.2
+  test_split: 0.1
+
+model:
+  model_name: "microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext"
+  max_len: 256
+
+training:
+  epochs: 100
+  batch_size: 64
+  learning_rate: 5e-5
+  output_dir: "ner2.0/outputs"
+  seed: 42
+  patience: 3 # 若 3 個 epoch F1 沒提升，則 early stop
+
+labels:
+  - gene
+  - disease
+  - chemical
+  - variant
+  - species
+  - cellline
+  - chromosome
+  - refseq
+  - genomicregion

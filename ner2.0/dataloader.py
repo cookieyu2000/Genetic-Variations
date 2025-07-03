@@ -36,7 +36,7 @@ class NERDataset(Dataset):
                 st = ent['start']
                 ed = ent['end']
                 lab = ent['label']
-                # 跳过完全在实体之外的 tokens
+                # 跳過完全在實體之外的 tokens
                 if off_end <= st or off_start >= ed:
                     continue
                 prefix = 'B' if off_start <= st else 'I'
@@ -51,14 +51,14 @@ class NERDataset(Dataset):
         }
 
 def parse_data(path, cache_path):
-    # 如果已有 cache，直接读取
+    # 如果已有 cache，直接讀取
     if os.path.exists(cache_path):
         with open(cache_path, 'rb') as f:
             examples = pickle.load(f)
         print(f"Loaded cached data from {cache_path}")
         return examples
 
-    # 否则重新解析
+    # 否則重新解析
     with open(path, 'r', encoding='utf-8') as f:
         lines = [l.strip() for l in f if l.strip()]
     examples = []
@@ -71,7 +71,7 @@ def parse_data(path, cache_path):
         text = f"{title.strip()} {abstract.strip()}"
         i += 1
         entities = []
-        # 正确判断实体行：先 split 再 strip
+        # 正確判斷實體行：先 split 再 strip
         while i < len(lines) and '|' in lines[i]:
             parts = [p.strip() for p in lines[i].split('|')]
             if len(parts) >= 5 and parts[1].isdigit() and parts[2].isdigit():
@@ -85,7 +85,7 @@ def parse_data(path, cache_path):
         pbar.update(1)
     pbar.close()
 
-    # 缓存
+    # 緩存
     os.makedirs(os.path.dirname(cache_path), exist_ok=True)
     with open(cache_path, 'wb') as f:
         pickle.dump(examples, f)
